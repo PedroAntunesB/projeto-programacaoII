@@ -1,0 +1,15 @@
+{
+  "name": "projeto-programacaoii",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "cli": "bun run ./src/cli.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
