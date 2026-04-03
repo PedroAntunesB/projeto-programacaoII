@@ -4,4 +4,5 @@ export type Item = {
   concludeDate: string | null;
   lastChange: string | null;
   conc: boolean;
+  category: string[] | null;
 };

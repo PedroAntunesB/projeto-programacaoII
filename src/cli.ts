@@ -15,16 +15,17 @@ if (command === "add") {
 }
 
 if (command === "list") {
-  const items = await todo.getItems();
+  const category = process.argv[3];
+  const items = await todo.getItems(category);
   if (items.length === 0) {
     console.log("Nenhum item na lista.");
     process.exit(0);
   }
 
-  console.log("Lista de itens:");
+  console.log(`Lista de itens${!category ? "" : " da categoria " + category}:`);
 
   const showItem = (item: Item): string => {
-    return `\nTarefa: ${item.task} \tSituação: ${item.conc ? "concluida" : "não concluida"} \tData de Criação: ${item.creationDate} \tData de conclusão: ${!item.concludeDate ? "tarefa não concluida" : item.concludeDate} \t ${!item.lastChange ? "" : "Ultima Alteração: " + item.lastChange}`;
+    return `\nTarefa: ${item.task} \tSituação: ${item.conc ? "concluida" : "não concluida"} \tCategorias: ${item.category} \tData de Criação: ${item.creationDate} \tData de conclusão: ${!item.concludeDate ? "tarefa não concluida" : item.concludeDate} \t ${!item.lastChange ? "" : "Ultima Alteração: " + item.lastChange}`;
   };
 
   items.forEach((item, index) => {
@@ -68,7 +69,7 @@ if (command === "remove") {
   process.exit(0);
 }
 
-if (command === "complete-task") {
+if (command === "conclude-task") {
   const index = parseInt(process.argv[3] as string);
   if (isNaN(index)) {
     console.error(
@@ -87,5 +88,32 @@ if (command === "complete-task") {
   process.exit(0);
 }
 
-console.error("Comando desconhecido. Use 'add', 'list', 'update' ou 'remove'.");
+if (command === "push-category") {
+  const index = parseInt(process.argv[3] as string);
+  const category = process.argv[4];
+
+  if (isNaN(index)) {
+    console.error(
+      "Por favor, forneça um índice de uma tarefa válida para concluir.",
+    );
+    process.exit(1);
+  }
+
+  if (!category) {
+    console.error("Por favor, escreva a categoria em um formato válido");
+  }
+
+  try {
+    await todo.pushCategory(category as string, index);
+    console.log(`Categoria adicionada no indice ${index} com sucesso.`);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+  process.exit(0);
+}
+
+console.error(
+  "Comando desconhecido. Use 'add', 'list', 'update', 'remove' ou 'conclude-task'.",
+);
 process.exit(1);
