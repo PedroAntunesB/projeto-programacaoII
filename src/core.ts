@@ -1,13 +1,20 @@
 import type { Item } from "./types/type";
 const filename = __dirname + "/data.todo.json";
 
-// Adicione a capacidade de ver em que momento um item foi adicionado e/ou alterado. Feito
-// Adicione a capacidade de marcar um item como concluído. Feito
-// Adicione a capacidade de filtrar itens por categoria. Feito
+// Adicionar comando search para buscar tarefas por palavra-chave
+// Adicionar numeração automática de tarefas com formato melhorado na exibição
+// Adicionar validação para evitar tarefas duplicadas
+
+// Feito:
+// Adicionar funcionalidade para filtrar tarefas por status (concluído ou em andamento)
+// Adicionar funcionalidade para marcar tarefas como concluídas Feito
+// Adicionar comando clear para limpar toda a lista de tarefas Feito
+// Adicionar data e hora de criação da tarefa Feito
+// Implementar um comando help que exiba todos os comandos disponíveis Feito
 
 const getTime = (): string => {
   const day = new Date();
-  return `${day.getDay()}/${day.getMonth()}/${day.getFullYear()} às ${day.getHours()}:${day.getMinutes()}:${day.getSeconds()}`;
+  return `${day.getDate()}/${day.getUTCMonth() + 1}/${day.getFullYear()} às ${day.getHours()}:${day.getMinutes()}:${day.getSeconds()}`;
 };
 
 let list: Item[] = null!;
@@ -31,6 +38,13 @@ async function saveToFile() {
 // CRUD - CREATE
 export async function addItem(item: string) {
   await loadFromFile();
+
+  list.forEach((el) => {
+    if (el.task === item) {
+      throw new Error("Esta tarefa já esta cadastrada");
+    }
+  });
+
   list.push({
     task: item,
     conc: false,
@@ -43,15 +57,13 @@ export async function addItem(item: string) {
 }
 
 // CRUD - READ
-export async function getItems(categoryFilter: null | string = null) {
+export async function getItems(filter: null | string = null) {
   await loadFromFile();
-  if (!categoryFilter) return list;
+  if (!filter) return list;
+  if (filter === "conclude") return list.filter((item) => item.conc);
+  if (filter === "no-conclude") return list.filter((item) => !item.conc);
 
-  const filteredList = list.filter((item) =>
-    item.category?.includes(categoryFilter),
-  );
-
-  return filteredList;
+  return list.filter((item) => item.category?.includes(filter));
 }
 
 // CRUD - UPDATE
@@ -73,6 +85,11 @@ export async function removeItem(index: number) {
   if (index < 0 || index >= list.length)
     throw new Error("Índice fora dos limites");
   list.splice(index, 1);
+  await saveToFile();
+}
+
+export async function clearList() {
+  list = [];
   await saveToFile();
 }
 
@@ -118,4 +135,5 @@ export default {
   removeItem,
   concludeItem,
   pushCategory,
+  clearList,
 };

@@ -25,7 +25,7 @@ if (command === "list") {
   console.log(`Lista de itens${!category ? "" : " da categoria " + category}:`);
 
   const showItem = (item: Item): string => {
-    return `\nTarefa: ${item.task} \tSituação: ${item.conc ? "concluida" : "não concluida"} \tCategorias: ${item.category} \tData de Criação: ${item.creationDate} \tData de conclusão: ${!item.concludeDate ? "tarefa não concluida" : item.concludeDate} \t ${!item.lastChange ? "" : "Ultima Alteração: " + item.lastChange}`;
+    return `\nTarefa: ${item.task} \nSituação: ${item.conc ? "concluida" : "não concluida"} \nCategorias: ${!item.category ? "Nenhuma categoria nesta tarefa" : item.category} \nData de Criação: ${item.creationDate} \nData de conclusão: ${!item.concludeDate ? "tarefa não concluida" : item.concludeDate} \n${!item.lastChange ? "" : "Ultima Alteração: " + item.lastChange}`;
   };
 
   items.forEach((item, index) => {
@@ -46,7 +46,7 @@ if (command === "update") {
     await todo.updateItem(index, newItem);
     console.log(`Item no índice ${index} atualizado para "${newItem}".`);
   } catch (error) {
-    console.error(String(error));
+    console.error(error);
     process.exit(1);
   }
   process.exit(0);
@@ -113,7 +113,25 @@ if (command === "push-category") {
   process.exit(0);
 }
 
+if (command === "clear") {
+  todo.clearList();
+  console.log("Lista limpa com sucesso");
+  process.exit(0);
+}
+
+if (command === "help") {
+  console.log("Lista de comandos disponiveis atualmente:");
+  console.log("- add");
+  console.log("- update");
+  console.log("- list");
+  console.log("- remove");
+  console.log("- conclude-task");
+  console.log("- push-category");
+  console.log("- clear");
+  process.exit(0);
+}
+
 console.error(
-  "Comando desconhecido. Use 'add', 'list', 'update', 'remove' ou 'conclude-task'.",
+  "Comando desconhecido. Digite 'bun run cli help' para saber os comandos disponiveis",
 );
 process.exit(1);
