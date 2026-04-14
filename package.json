@@ -7,7 +7,8 @@
     "@types/bun": "^1.3.11"
   },
   "scripts": {
-    "cli": "bun run ./src/cli.ts"
+    "cli-atv1": "bun run ./src/atv1/cli.ts",
+    "cli-atv2": "bun run ./src/atv2/cli.ts"
   },
   "peerDependencies": {
     "typescript": "^5"
