@@ -9,5 +9,11 @@ bun install
 To run:
 
 ```bash
-bun run cli
+bun run cli-atv1
+```
+
+Or
+
+```
+bun run cli-atv2
 ```
