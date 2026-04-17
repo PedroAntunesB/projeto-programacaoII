@@ -1,17 +1,6 @@
 import type { Item } from "./types/type";
 const filename = __dirname + "/data.todo.json";
 
-// Adicionar comando search para buscar tarefas por palavra-chave
-// Adicionar numeração automática de tarefas com formato melhorado na exibição
-// Adicionar validação para evitar tarefas duplicadas
-
-// Feito:
-// Adicionar funcionalidade para filtrar tarefas por status (concluído ou em andamento)
-// Adicionar funcionalidade para marcar tarefas como concluídas Feito
-// Adicionar comando clear para limpar toda a lista de tarefas Feito
-// Adicionar data e hora de criação da tarefa Feito
-// Implementar um comando help que exiba todos os comandos disponíveis Feito
-
 const getTime = (): string => {
   const day = new Date();
   return `${day.getDate()}/${day.getUTCMonth() + 1}/${day.getFullYear()} às ${day.getHours()}:${day.getMinutes()}:${day.getSeconds()}`;
