@@ -8,7 +8,8 @@
   },
   "scripts": {
     "cli-atv1": "bun run ./src/atv1/cli.ts",
-    "cli-atv2": "bun run ./src/atv2/cli.ts"
+    "cli-atv2": "bun run ./src/atv2/cli.ts",
+    "server": "bun run ./src/atv3/server.ts"
   },
   "peerDependencies": {
     "typescript": "^5"
